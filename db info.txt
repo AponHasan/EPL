@@ -1,0 +1,3 @@
+Database Name : epls_epldb
+Database User : epls_user
+Ddatabase Pass: SJdjJ5q$Mp9d
