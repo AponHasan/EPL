@@ -37,17 +37,21 @@ Route::post('/dealer/create','DealerController@postcreate')->name('dealer.postcr
 Route::get('dealersettings/zone/create','DealerZoneController@getCreate')->name('dealersettings.zone.create');
 Route::post('dealersettings/zone/create','DealerZoneController@postCreate')->name('dealersettings.zone.postcreate');
 Route::DELETE('dealersettings/zone/delete/{id}','DealerZoneController@destroy')->name('dealersettings.zone.delete');
+Route::PATCH('dealersettings/zone/update/{id}','DealerZoneController@update')->name('dealersettings.zone.update');
+
 
 // Dealer Type
 Route::get('dealersettings/type/create','DealerTypeController@getCreate')->name('dealersettings.type.create');
 Route::post('dealersettings/type/create','DealerTypeController@postCreate')->name('dealersettings.type.postcreate');
 Route::DELETE('dealersettings/type/delete/{id}','DealerTypeController@destroy')->name('dealersettings.type.delete');
+Route::PATCH('dealersettings/type/update/{id}','DealerTypeController@update')->name('dealersettings.type.update');
 
 
 // Dealer Area
 Route::get('dealersettings/area/create','DealerAreaController@getCreate')->name('dealersettings.area.create');
 Route::post('dealersettings/area/create','DealerAreaController@postCreate')->name('dealersettings.area.postcreate');
 Route::DELETE('dealersettings/area/delete/{id}','DealerAreaController@destroy')->name('dealersettings.area.delete');
+Route::PATCH('dealersettings/area/update/{id}','DealerAreaController@update')->name('dealersettings.area.update');
 
 
 // Dealer SPO
@@ -60,3 +64,5 @@ Route::post('dealersettings/spo/create','DealerSpoController@postCreate')->name(
 Route::get('dealersettings/linemanager/index','DealerLineManagerController@index')->name('dealersettings.linemanager.index');
 Route::get('dealersettings/linemanager/create','DealerLineManagerController@getCreate')->name('dealersettings.linemanager.create');
 Route::post('dealersettings/linemanager/create','DealerLineManagerController@postCreate')->name('dealersettings.linemanager.postcreate');
+
+

@@ -25,6 +25,18 @@ class DealerTypeController extends Controller
                         ->with('success', 'Dealer type Create  successfully .');
     }
 
+    public function update(Request $request, $id)
+    {  
+        // dd($request);
+        // DealerType::findOrFail($request->id)->update($request->all());
+        $dealerType = DealerType::find($request->id);
+        $dealerType->type_title = $request->type_title;
+        $dealerType->type_description = $request->type_description;
+        // dd($dealerType);
+        $dealerType->save();
+        return redirect()->route('dealersettings.type.create')
+                        ->with('success', 'Dealer type Update  successfully .');
+    }
 
     public function destroy(Request $request, $id)
     {

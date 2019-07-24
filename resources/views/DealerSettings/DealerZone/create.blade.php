@@ -74,7 +74,7 @@
                                 <td>{{$dzone->zone_title}}</td>
                                 <td>
                                 <a href="#" class="btn btn-danger btn-sm" data-myid="{{$dzone->id}}" data-mytitle="{{$dzone->zone_title}}" data-toggle="modal" data-target="#delete"><i class="ti-trash"></i></a>
-                                    <a href="sdfs" class="show-modal  btn btn-warning btn-sm" alt="default"><i class="ti-settings"></i></a>
+                                <a href="#" class="show-modal  btn btn-warning btn-sm" alt="default" data-myid="{{$dzone->id}}" data-mytitle="{{$dzone->zone_title}}" data-mycode="" data-mydescription="{{$dzone->zone_description}}" scription alt="default" data-toggle="modal" data-target="#edit" ><i class="ti-settings"></i></a>
                                 </td>
                             </tr>   
                         @endforeach
@@ -88,7 +88,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: red;color:#fff">
-        <h5 class="modal-title" id="exampleModalLabel">Delete Department</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Delete Dealer Zone</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -112,6 +112,41 @@
     </div>
   </div>
 </div>
+
+<div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title">Update Dealer Zone</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                
+            </div>
+            <div class="modal-body">
+                <form class="floating-labels m-t-40" action="{{route('dealersettings.zone.update','test')}}"method="POST">
+                    {{method_field('patch')}}
+                    @csrf
+                    <div class="form-group m-b-40 {{ $errors->has('name') ? 'has-error' : '' }}">
+                        <label for="input1" style="position: initial;">Zone Title</label>
+                        <input type="hidden" class="form-control" id="mid" name="id">
+                        <input type="text" class="form-control" id="mtitle" name="zone_title">
+                        <span class="text-danger">{{ $errors->first('name') }}</span>
+                    </div>
+
+
+                    <div class="form-group m-b-5">
+                    <label for="input7" style="position: initial;">Description</label>
+                        <input type="textarea" class="form-control" rows="4" id="mdescription" name="zone_description">
+                        <span class="bar"></span>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger waves-effect waves-light" style="width:50%" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" style="width: 50%;">UPDATE</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 @endsection
 @push('end_js')
@@ -127,6 +162,22 @@ $(document).ready(function() {
 } );
 </script>
 <script>
+
+    // Edit
+    $('#edit').on('show.bs.modal',function(event){
+        console.log('hello test');
+        var button = $(event.relatedTarget)
+        var title = button.data('mytitle')
+        var description = button.data('mydescription')
+        var id = button.data('myid')
+
+        var modal =$(this)
+        modal.find('.modal-body #mtitle').val(title);
+        modal.find('.modal-body #mdescription').val(description);
+        modal.find('.modal-body #mid').val(id);
+    })
+
+
 // Delete
 $('#delete').on('show.bs.modal',function(event){
         console.log('hello test');
