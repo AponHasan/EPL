@@ -11,7 +11,7 @@
         <h4>Add New Employee</h4>
     </div>
     <div class="card-body">
-        <form class="floating-labels m-t-40" action="{{route('employee.store')}}" method="POST" enctype="multipart/form-data" data-parsley-validate>
+        <form class="floating-labels m-t-40" action="{{route('emp.store')}}" method="POST" enctype="multipart/form-data" data-parsley-validate>
             {{csrf_field()}}
             <div class="row">
                 <div class="col-md-12">
@@ -140,6 +140,10 @@
             console.log($(this).val())
         })
     })
+    
+</script>
+<script>
+
 </script>
 <script>
   var loadFile = function(event) {

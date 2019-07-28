@@ -18,8 +18,9 @@
               <div class="row">
                 <div class="col-md-3" style="padding-right: 20px;padding-left: 0px;margin-bottom: 10%;">.
                 @include('deshboardsidemenu.sidemenulist.employee')
-                @include('deshboardsidemenu.sidemenulist.attendance')
                 @include('deshboardsidemenu.sidemenulist.leavemanagement')
+                @include('deshboardsidemenu.sidemenulist.attendance')
+                
                 <!-- @include('deshboardsidemenu.sidemenulist.dinningset') -->
                 <!-- @include('deshboardsidemenu.sidemenulist.payroll') -->
                 <!-- @include('deshboardsidemenu.sidemenulist.settings') -->

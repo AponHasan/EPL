@@ -66,3 +66,19 @@ Route::get('dealersettings/linemanager/create','DealerLineManagerController@getC
 Route::post('dealersettings/linemanager/create','DealerLineManagerController@postCreate')->name('dealersettings.linemanager.postcreate');
 
 
+Route::resources([
+
+    'department'=>'DepartmentController',
+    'unit'=>'UnitController',
+    'division'=>'DivisionController',
+    'designation'=>'DesignationController',
+    'company'=>'CompanyController',
+    'section'=>'SectionController',
+    'staffcateory'=>'StaffCategoryController',
+    ]);
+
+
+// Employee
+Route::get('/employee/index','EmployeeController@index')->name('emp.index');
+Route::get('/employee/create','EmployeeController@create')->name('emp.create');
+Route::post('/employee/create','EmployeeController@store')->name('emp.store');

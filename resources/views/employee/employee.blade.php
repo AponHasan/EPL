@@ -36,7 +36,7 @@ div.dataTables_wrapper div.dataTables_filter input
                     <h4>Employee Information</h3>
                 </div>
                 <div class="col-md-2">
-                    <a href="/employeeadd" class="btn btn-primary btn-sm">Add New Employee</a>
+                    <a href="{{route('emp.create')}}" class="btn btn-primary btn-sm">Add New Employee</a>
                 </div>
             </div>
         </div>
@@ -47,8 +47,6 @@ div.dataTables_wrapper div.dataTables_filter input
                         <th>Si.No</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Department</th>
-                        <th>Designation</th>
                         <th style="text-align: center">Action</th>
                     </tr>
                 </thead>
@@ -56,21 +54,12 @@ div.dataTables_wrapper div.dataTables_filter input
                 @foreach($testuser as $user)
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td>{{$user->name}}</td>
-                        <td>{{$user->email}}</td>
-                        <td>{{$user->dname}}</td>
-                        <td>{{$user->desname}}</td>
+                        <td>{{$user->emp_name}}</td>
+                        <td>{{$user->emp_mail_id}}</td>
                         <td style="text-align: center;">
-                            <a href="{{route('profile',$user->id)}}" class="btn btn-primary btn-sm"title="View Profile"><i class="ti-eye"></i></a> 
-                            
-                            <a href="{{route('employee.edit',$user->id)}}" class="btn btn-warning btn-sm" title="Edit Info"><i class="ti-settings"></i></a> 
-
-
-                            <a href="#" class="btn btn-danger btn-sm" data-myid="{{$user->id}}" data-mytitle="{{$user->name}}" data-toggle="modal" data-target="#delete"><i class="ti-trash"></i></a>
-                            
+                               
                         </td>
                     </tr>
-                    @include('employee._partials_employee_add.deletemodal')
                 @endforeach
                 </tbody>
                 <tfoot>
@@ -78,8 +67,6 @@ div.dataTables_wrapper div.dataTables_filter input
                         <th>Si.No</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Department</th>
-                        <th>Designation</th>
                         <th style="text-align: center;">Action</th>
                     </tr>
                 </tfoot>

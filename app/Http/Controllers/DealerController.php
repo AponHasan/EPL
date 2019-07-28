@@ -9,6 +9,7 @@ use App\DealerSpo;
 use App\DealerType;
 use App\DealerZone;
 use App\Dealer;
+use App\Employee;
 use DB;
 
 
@@ -25,8 +26,8 @@ class DealerController extends Controller
     }
     public function getcreate()
     {
-        $dealerlm = DealerLineManager::All();
-        $dealerspo = DealerSpo::All();
+        $dealerlm = Employee::All();
+        $dealerspo = Employee::All();
         $dealertype = DealerType::All();
         $dealerzone = DealerZone::All();
         $dealerarea = DealerArea::All();
