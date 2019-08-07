@@ -82,3 +82,35 @@ Route::resources([
 Route::get('/employee/index','EmployeeController@index')->name('emp.index');
 Route::get('/employee/create','EmployeeController@create')->name('emp.create');
 Route::post('/employee/create','EmployeeController@store')->name('emp.store');
+
+//comments
+Route::post('/home','CommentsController@commentpost')->name('comment.post');
+
+
+
+// Factory
+Route::get('/factory/index','FactoryController@index')->name('factory.index');
+Route::get('/factory/create','FactoryController@getcreate')->name('factory.create');
+Route::post('/factory/create','FactoryController@postcreate')->name('factory.store');
+
+
+// Product Settins
+Route::resources([
+    'productdimensions'=>'ProductDimensionController',
+    'productcolors'=>'ProductColorController',
+    ]);
+
+// Product
+Route::get('product/index','ProductController@index')->name('product.index');
+Route::get('product/create','ProductController@create')->name('product.create');
+Route::post('product/store','ProductController@store')->name('product.store');
+
+//get product price
+Route::get('/dpprice/{id}','ProductController@getdpprice');
+
+
+// product Stock in
+Route::get('product/stock/index','StockInController@index')->name('product.stock.index');
+Route::get('product/stock_in','StockInController@stock_in_create')->name('product.stock.in');
+Route::post('product/stock_in','StockInController@stock_in_store')->name('product.stock.in.store');
+
