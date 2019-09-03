@@ -67,7 +67,6 @@ Route::post('dealersettings/linemanager/create','DealerLineManagerController@pos
 
 
 Route::resources([
-
     'department'=>'DepartmentController',
     'unit'=>'UnitController',
     'division'=>'DivisionController',
@@ -113,4 +112,35 @@ Route::get('/dpprice/{id}','ProductController@getdpprice');
 Route::get('product/stock/index','StockInController@index')->name('product.stock.index');
 Route::get('product/stock_in','StockInController@stock_in_create')->name('product.stock.in');
 Route::post('product/stock_in','StockInController@stock_in_store')->name('product.stock.in.store');
+
+
+// dealer Demand  letter
+Route::get('dealer/demandletter','DemandController@demandcreate')->name('dealer.demand');
+Route::post('dealer/demandletter/copy','DemandController@demandcreatecopy')->name('dealer.demand.copy');
+Route::get('dealer/demandletter/product/price/{id}','DemandController@getproductprice');
+Route::post('dealer/demandletter/generate','DemandController@demandgenerate')->name('demandletter.generate');
+Route::get('dealer/demandletter/list','DemandController@index')->name('demandletter.index');
+Route::get('/dealer/demandletter/demandeNumber','DemandController@demandeNumber')->name('demandletter.demandeNumber');
+
+
+//Demand Epl Check 
+Route::get('dealer/demandletter/epl/check-out/{id}','DemandlettercheckController@dealer_demand_list')->name('demandletter.check-out');
+Route::post('dealer/demandletter/epl/check-out/create','DemandlettercheckController@demand_check_out')->name('demandletter.check-out.create');
+Route::post('/demand/product/unhold/{id}','DemandlettercheckController@dealer_demand_unhold')->name('demandletter.product.unhold');
+Route::post('/demand/product/hold/{id}','DemandlettercheckController@dealer_demand_hold')->name('demandletter.product.hold');
+Route::post('/demand/product/approved/{id}','DemandlettercheckController@dealer_demand_approved')->name('demandletter.product.approved');
+// Route
+
+
+
+
+// Demand confirm   Order
+Route::get('demand-confirm/','DemandConfirmController@Delarlist');
+Route::get('/demand-confirm/productlist/{id}','DemandConfirmController@demandconfirmlist');
+Route::get('demand-check-list/','DemandConfirmController@demand_check_list');
+Route::post('demand-check-list-confirm/','DemandConfirmController@demand_check_list_confirm')->name('check.list.confirm');
+Route::post('check-list-confirm/','DemandConfirmController@check_list_confirm')->name('list.confirm');
+
+
+
 
