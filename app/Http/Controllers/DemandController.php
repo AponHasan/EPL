@@ -23,6 +23,12 @@ class DemandController extends Controller
     {
         $demandnumber = DB::select('SELECT dealer_demands.dealer_demand_no FROM `dealer_demands` ORDER BY dealer_demands.id DESC LIMIT 1 ');
         return response($demandnumber);
+        
+    }
+    public function getdlrname($id)
+    {
+        $dlrname = DB::select('SELECT dealers.d_s_name FROM `dealers` WHERE dealers.id="'.$id.'"');
+        return($dlrname);
     }
 
     public function demandcreate()

@@ -115,11 +115,13 @@ Route::post('product/stock_in','StockInController@stock_in_store')->name('produc
 
 
 // dealer Demand  letter
+Route::get('/dealer/name/get/{id}','DemandController@getdlrname');
 Route::get('dealer/demandletter','DemandController@demandcreate')->name('dealer.demand');
 Route::post('dealer/demandletter/copy','DemandController@demandcreatecopy')->name('dealer.demand.copy');
 Route::get('dealer/demandletter/product/price/{id}','DemandController@getproductprice');
 Route::post('dealer/demandletter/generate','DemandController@demandgenerate')->name('demandletter.generate');
 Route::get('dealer/demandletter/list','DemandController@index')->name('demandletter.index');
+// deman number
 Route::get('/dealer/demandletter/demandeNumber','DemandController@demandeNumber')->name('demandletter.demandeNumber');
 
 
@@ -135,11 +137,23 @@ Route::post('/demand/product/approved/{id}','DemandlettercheckController@dealer_
 
 
 // Demand confirm   Order
-Route::get('demand-confirm/','DemandConfirmController@Delarlist');
 Route::get('/demand-confirm/productlist/{id}','DemandConfirmController@demandconfirmlist');
-Route::get('demand-check-list/','DemandConfirmController@demand_check_list');
+Route::get('demand-check-list/','DemandConfirmController@demand_check_list')->name('check.list');
 Route::post('demand-check-list-confirm/','DemandConfirmController@demand_check_list_confirm')->name('check.list.confirm');
 Route::post('check-list-confirm/','DemandConfirmController@check_list_confirm')->name('list.confirm');
+// demand confirm number
+Route::get('/dealer/demandletter/demandconfirmNumber','DemandConfirmController@demandconfirmNumber')->name('demandletter.demandconfirmNumber');
+
+
+
+// Demand Confirm list
+Route::get('demand/confirm-list/','DemandConfirmController@confirmlist')->name('confirm.list');
+Route::post('demand/confirm-list/get','DemandConfirmController@confirmlistget')->name('confirm.list.get');
+Route::get('/dealer/demandno/get/{id}','DemandConfirmController@confirmno');
+
+
+
+
 
 
 

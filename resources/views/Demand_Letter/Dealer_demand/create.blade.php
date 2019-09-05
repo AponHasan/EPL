@@ -30,19 +30,22 @@ div.dataTables_wrapper div.dataTables_filter input
             <label>Demand Number : dealer-demand-<span id="dlnos"></span></label>
             </div>
             <div class="col-md-6">
-                <label> Dealer *</label> 
+                <label> Dealer Code*</label> 
                 <select class="form-control"  name="dealer_id"  id="dealer" required>
                     <option value=" ">Select Dealer</option>
                     @foreach($dealers as $dealer)
-                    <option value="{{$dealer->id}}">{{$dealer->d_s_name}}</option>
+                    <option value="{{$dealer->id}}">{{$dealer->dlr_code}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <input class="form-control" id="dlno"  name="dealer_demand_no" value="" type="hidden" />
+                    <label for="">Dealer Name</label>
+                    <input class="form-control"  id="d_name"  name="" value="" type="text" Readonly/>
                 </div>
             </div>
+            
             <div class="col-md-12">
                 <h3>Product Info</h3>
             </div>
@@ -146,12 +149,32 @@ $(document).ready(function(){
                     document.getElementById("dlnos").innerHTML = dln;
                 }
                 else{
-                    ocument.getElementById("dlno").value = 00001;
+                    document.getElementById("dlno").value = 00001;
                 }
                 
             }
         });
     });
+
+$(document).ready(function(){
+    $('select[name="dealer_id"]').on('change',function(){
+        var dlrid = $(this).val();
+        // console.log(dlrid);
+        if(dlrid){
+            $.ajax({
+                url: '/dealer/name/get/'+dlrid,
+                type:"GET",
+                dataType:'json',
+                success: function(date){
+                    // console.log(date[0].d_s_name);
+                    var dlrname = date[0].d_s_name;
+                    document.getElementById("d_name").value = dlrname; 
+                    }
+            });
+        }
+    });
+});
+
 $(document).ready(function(){
         $('select[name="product"]').on('change',function() {
      var pro_id = $(this).val();

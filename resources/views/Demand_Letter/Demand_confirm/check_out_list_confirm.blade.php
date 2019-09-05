@@ -17,7 +17,15 @@
     <div class="col-md-12" style="padding-left: 0px;">
         <div class="card" style="height: 535px;">
             <div class="card-body">
-                <h4 class="card-title">Department List</h4>
+            <div class="row">
+            <div class="col-md-6" >
+                <h4 class="card-title">Demand Check-Out List</h4>
+            </div>
+            <div class="col-md-6" >
+                <label>Confirm Number: demand-confirm-<span id="dcnos"></span></label>
+            </div>
+            
+            </div>
                 <div class="table-responsive">
                     <table id="example" class="display" style="width:100%">
                         <thead>
@@ -54,6 +62,18 @@
                 @foreach($check_list as $check_lists)
                     <input type="hidden" name="c_status[]" value="{{$check_lists->id}}" >
                 @endforeach
+                <div class="col-md-6">
+                <div class="form-group">
+                    <label> Warehouse List*</label> 
+                    <select class="form-control"  name="warehouse_id"  id="warehouse" required>
+                        <option value=" ">Select Warehouses</option>
+                        @foreach($warehouses as $warehouse)
+                        <option value="{{$warehouse->id}}">{{$warehouse->factory_name}}</option>
+                        @endforeach
+                    </select>
+                    <input class="form-control" id="dcno"  name="demand_confirm_no" value="" type="hidden" />
+                </div>
+            </div>
                 <input type="submit" value="Confirm">
                 </form>
             </div>
@@ -75,6 +95,28 @@ $(document).ready(function() {
 </script>
 
 <script>
+$(document).ready(function(){
+        $.ajax({
+            url : '/dealer/demandletter/demandconfirmNumber',
+            type: "GET",
+            dataType: 'json',
+            success : function(data){
+                // console.log(data[0].demand_confirm_no);
+                if(data[0].demand_confirm_no != null)
+                {
+                    
+                    var dln = parseInt(data[0].demand_confirm_no)+1;
+                    console.log(dln);
+                    document.getElementById("dcno").value = dln;
+                    document.getElementById("dcnos").innerHTML = dln;
+                }
+                else{
+                    document.getElementById("dcno").value = 100001;
+                }
+                
+            }
+        });
+    });
 $(document).ready (function(){
             $("#success-alert").fadeTo(7000, 7000).slideUp(1000);
  });

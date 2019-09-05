@@ -42,6 +42,10 @@ class DemandlettercheckController extends Controller
     {
 
         // dd($request);
+        $dealer_demands =  Dealer_demand::find($request->dealer_id);
+
+        dd($dealer_demands);
+
         $ddl_check_out = new Ddl_check_out;
         $ddl_check_out->demand_id = $request->demand_id;
         $ddl_check_out->dealer_id = $request->dealer_id;
