@@ -177,6 +177,7 @@ return [
 
         // Laravel full calender
         MaddHatter\LaravelFullcalendar\ServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -231,7 +232,7 @@ return [
 
         // Laravel full calender
         'Calendar' => MaddHatter\LaravelFullcalendar\Facades\Calendar::class,
-
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

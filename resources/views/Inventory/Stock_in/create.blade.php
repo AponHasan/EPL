@@ -49,7 +49,7 @@
                     <div class="row">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
-                            <button type="submit" class="btn btn-primary" style="width: 100%;">SAVE</button>
+                            <button type="submit" class="btn btn-primary" style="width: 100%; ">SAVE</button>
                         </div>
                         <div class="col-md-4"></div>
                     </div>

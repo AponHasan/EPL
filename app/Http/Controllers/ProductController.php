@@ -10,7 +10,11 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::latest('id')->get();
+        $products = DB::select('SELECT products.id,products.product_name,products.product_code,products.product_dp_price,products.product_dealer_commision, products.product_dimension,products.product_dimension_unit,products.product_weight,products.product_weight_unit,products.product_barcode,products.product_mrp,products.product_color,products.product_description 
+        ,sum(stock_ins.quantity) as stock FROM `products` 
+                LEFT JOIN stock_ins on stock_ins.prouct_id = products.id
+                GROUP BY products.id,products.product_name,products.product_code,products.product_dp_price,products.product_dealer_commision,products.product_dimension,products.product_dimension_unit,products.product_weight,products.product_weight_unit,products.product_barcode,products.product_mrp,products.product_color,products.product_description 
+                ORDER BY `products`.`id` DESC');
         return view('Product.index',compact('products'));
     }
     public function create()
@@ -43,5 +47,25 @@ class ProductController extends Controller
     {
         $dpprice = DB::select('SELECT products.product_dp_price FROM `products` WHERE products.id="'.$id.'" ');
         return response($dpprice);
+    }
+
+    public function update(Request $request, $id)
+    {
+        // dd($request);
+        $request->validate([
+            'product_name' => 'required',
+            'product_code' => 'required',
+        ]);
+  
+        Product::findOrFail($request->id)->update($request->all());
+        return redirect()->route('product.index')
+                        ->with('success', 'Products Update  successfully .');
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        Product::findOrFail($request->id)->Delete($request->all());
+        return redirect()->route('product.index')
+                        ->with('delete', 'Products Delete  successfully .');
     }
 }

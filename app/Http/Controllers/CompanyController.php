@@ -76,9 +76,16 @@ class CompanyController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(Request $request, $id)
     {
-        //
+        // dd($request);
+        $request->validate([
+            'company_title' => 'required',
+        ]);
+  
+        Company::findOrFail($request->id)->update($request->all());
+        return redirect()->route('company.index')
+                        ->with('success', 'Company Update  successfully .');
     }
 
     /**
@@ -87,8 +94,10 @@ class CompanyController extends Controller
      * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Company $company)
+    public function destroy(Request $request, $id)
     {
-        //
+        Company::findOrFail($request->id)->Delete($request->all());
+        return redirect()->route('company.index')
+                        ->with('delete', 'Company Delete  successfully .');
     }
 }

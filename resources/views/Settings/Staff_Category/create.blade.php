@@ -4,13 +4,13 @@
     <div class="col-md-12">
         @if ($message = Session::get('success'))
             <div class="alert alert-success"id="success-alert">
-                <p>{{ $message }}</p>
+                <p style="color:#fff">{{ $message }}</p>
             </div>
         @endif
 
         @if ($message = Session::get('delete'))
             <div class="alert alert-danger" style="background-color:red"  id="danger-alert">
-                <p>{{ $message }}</p>
+                <p style="color:#fff">{{ $message }}</p>
             </div>
         @endif
     </div>
@@ -18,15 +18,18 @@
     <!-- card -->
         <div class="card" style="height: 535px;">
             <!-- card body -->
+            <div class="card-header">
+            Create Staff Category
+            </div>
             <div class="card-body">
-            <h3>Create Staff Category</h3>
+            <h3></h3>
             <!-- Create department -->
                 <form class="floating-labels m-t-40" action="{{Route('staffcateory.store')}}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group m-b-40">
-                            <label for="area_title">Staff Cateory Title</label>
+                            <label for="area_title">Staff Category Title</label>
                                 <input type="text" class="form-control" id="area_title"  name="staff_cate_title">
                                 <span class="text-danger"></span>
                             </div>
@@ -55,6 +58,9 @@
     </div> <!-- end col-6 -->
     <div class="col-md-6" style="padding-left: 0px;">
     <div class="card" style="height: 535px;">
+    <div class="card-header">
+    Staff Category List
+    </div>
             <div class="card-body">
                 <h4 class="card-title">Staff Category List</h4>
     <div class="table-responsive">
@@ -72,8 +78,8 @@
                 <td>{{$loop->iteration}}</td>
                 <td>{{$staffCategory->staff_cate_title}}</td>
                 <td>
-                <a href="#" class="btn btn-danger btn-sm" data-myid="" data-mytitle="" data-toggle="modal" data-target="#delete"><i class="ti-trash"></i></a>
-                <a href="#" class="show-modal  btn btn-warning btn-sm" alt="default" data-myid="" data-mytitle="" data-mycode="" data-mydescription="" scription alt="default" data-toggle="modal" data-target="#edit" ><i class="ti-settings"></i></a>
+                <a href="#" class="btn btn-danger btn-sm" data-myid="{{$staffCategory->id}}" data-mytitle="" data-toggle="modal" data-target="#delete"><i class="ti-trash"></i></a>
+                <a href="#" class="show-modal  btn btn-warning btn-sm" alt="default" data-myid="{{$staffCategory->id}}" data-mytitle="{{$staffCategory->staff_cate_title}}" data-mycode="" data-mydescription="{{$staffCategory->staff_cate_desccription}}" scription alt="default" data-toggle="modal" data-target="#edit" ><i class="ti-settings"></i></a>
                 </td>
             </tr>
         @endforeach
@@ -83,18 +89,18 @@
     </div>
 </div>
     </div>
-    <!-- <div class="modal modal-danger fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal modal-danger fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: red;color:#fff">
-        <h5 class="modal-title" id="exampleModalLabel">Delete Area</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Delete Staff Category</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       
 
-      <form action="{{route('dealersettings.area.delete','test')}}"method="POST">
+      <form action="{{route('staffcateory.destroy','test')}}"method="POST">
             {{method_field('delete')}}
             @csrf
       <div class="modal-body" >
@@ -106,36 +112,35 @@
         <button type="submit" class="btn btn-danger btn-sm">Yes Delete</button>
       </div>
       </form>
-  
     </div>
   </div>
-</div> -->
+</div> 
 
-<!-- <div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+ <div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h4 class="modal-title">Update Dealer Area</h4>
+            <h4 class="modal-title">Update Staff Category</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                
             </div>
+
             <div class="modal-body">
-                <form class="floating-labels m-t-40" action="{{route('dealersettings.area.update','test')}}"method="POST">
+                <form class="floating-labels m-t-40" action="{{route('staffcateory.update','test')}}"method="POST">
                     {{method_field('patch')}}
                     @csrf
                     <div class="form-group m-b-40 {{ $errors->has('name') ? 'has-error' : '' }}">
-                        <label for="input1" style="position: initial;">Type Title</label>
+                        <label for="input1" style="position: initial;">Staff Category Title</label>
                         <input type="hidden" class="form-control" id="mid" name="id">
-                        <input type="text" class="form-control" id="mtitle" name="area_title">
+                        <input type="text" class="form-control" id="mtitle" name="staff_cate_title">
                         <span class="text-danger">{{ $errors->first('name') }}</span>
                     </div>
 
-
                     <div class="form-group m-b-5">
                     <label for="input7" style="position: initial;">Description</label>
-                        <input type="textarea" class="form-control" rows="4" id="mdescription" name="area_description">
+                        <input type="textarea" class="form-control" rows="4" id="mdescription" name="staff_cate_desccription">
                         <span class="bar"></span>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger waves-effect waves-light" style="width:50%" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary" style="width: 50%;">UPDATE</button>
@@ -144,7 +149,7 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>
 
 </div>
 @endsection

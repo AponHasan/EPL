@@ -7,6 +7,7 @@
      <link href="{{asset('css/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet" />
      <!-- Custom CSS -->
      <link href="{{asset('css/style.css')}}" rel="stylesheet">
+     <link href="{{asset('css/custom.css')}}" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="{{asset('css/default.css')}}" id="theme" rel="stylesheet">
     <!-- notice -style -->

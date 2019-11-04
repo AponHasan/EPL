@@ -74,19 +74,28 @@ class DepartmentController extends Controller
      * @param  \App\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Department $department)
+    public function update(Request $request, $id)
     {
-        //
+        // dd($request);
+        $request->validate([
+            'department_title' => 'required',
+        ]);
+  
+        Department::findOrFail($request->id)->update($request->all());
+        return redirect()->route('department.index')
+                        ->with('department', 'Department Update  successfully .');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Department  $department
+     * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Department $department)
+    public function destroy(Request $request, $id)
     {
-        //
+        Department::findOrFail($request->id)->Delete($request->all());
+        return redirect()->route('department.index')
+                        ->with('delete', 'Department Delete  successfully .');
     }
 }

@@ -16,6 +16,7 @@ class DemandController extends Controller
     public function index()
     {
         $dealerdemanlist = DB::select('SELECT dealers.d_s_name ,dealer_demands.date,dealer_demands.dealer_demand_no,SUM(dealer_demands.qty) as orderqty, SUM(dealer_demands.p_dsc) as dcommission, SUM(dealer_demands.p_cost) as dproductcost FROM dealer_demands LEFT JOIN dealers ON dealers.id = dealer_demands.dealer_id GROUP BY dealers.d_s_name, dealer_demands.date,dealer_demands.dealer_demand_no');
+
         return view('Demand_Letter.Dealer_demand.index',compact('dealerdemanlist'));
     }
 

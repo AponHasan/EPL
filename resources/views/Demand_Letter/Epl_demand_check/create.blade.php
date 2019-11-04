@@ -18,6 +18,10 @@ div.dataTables_wrapper div.dataTables_filter input
 <div class="card">
     <div class="card-header">Dealer Demand </div>
     <div class="card-body">
+    <form class="floating-labels m-t-40" action="{{route('demandletter.check-out.create')}}"method="POST">
+    @csrf
+        <input type="hidden" class="form-control"  name="dealer_id" value="{{$demandcol[0]->dealer_id}}">
+        <input type="hidden" class="form-control"  name="dealer_demand_no" value="{{$demandcol[0]->dealer_demand_no}}">
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -31,22 +35,41 @@ div.dataTables_wrapper div.dataTables_filter input
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <p><span>Demand Check No : </span>10001</p>
+                        <p >Demand Check No : <span id="dcnos"> </span></p>
+                        <input type="hidden" class="form-control" id="dcno" name="dealer_demand_check_out_no" >
+                    </div>
+                </div>
+                @if ($errors->any())
+                    <div class="alert alert-danger" style="background-color:#fff">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li style="color:red">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <div class="col-md-4" style="margin-top:10px;">
+                    <div class="form-group m-b-40 " >
+                        <label for="input1">Warehouse</label>
+                        <select required="" name="warehouse_id" class="form-control ">
+                        <option value=" ">Select Warehouse</option>
+                                @foreach($warehouses as $warehouse)
+                                <option value="{{$warehouse->id}}">{{$warehouse->factory_name}}</option>
+                                @endforeach
+                        </select>
                     </div>
                 </div>
             </div>
+            
         <div class="table-responsive">
         <table id="example" class="table" style="width:100%">
             <thead>
                 <tr>
                     <th>Si.No</th>
                     <th>Product Name</th>
-                    <th>DP Price</th>
-                    <th>Demand Quantity</th>
-                    <th>Demand Painding</th>
-                    <th>Dealer Commission</th>
-                    <th>Total Price</th>
-                    <th style="text-align: center">Action</th>
+                    <th>Deamand Paindding</th>                    
+                    <th>In Stock</th>                    
+                    <th>Approve QTY</th>                    
                 </tr>
             </thead>
             <tbody>
@@ -54,84 +77,31 @@ div.dataTables_wrapper div.dataTables_filter input
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{$demandcols->product_name}}</td>
-                    <td>{{$demandcols->dp_price}} Tk</td>
-                    <td>{{$demandcols->qty}} Piece</td>
-                    <td> Piece</td>
-                    <td>{{$demandcols->p_dsc}} Tk</td>
-                    <td>{{$demandcols->p_cost}} Tk</td>
-                    <td style="text-align: center;">
-                    @if($demandcols->demand_hold_status=='1')
-                    <form action="{{Route('demandletter.product.unhold',$demandcols->id)}}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-primary btn-sm savebbtn" id="savebbtn" style="width: 100%;background-color: #76db76;font-weight: bold;">Unhold</button>
-                    </form>
-                    @elseif($demandcols->demand_approve_status=='1')
-                    <a href="#"style="width: 80px;background-color: #2dbf2de8;color: #fff; font-weight: bold;"  id="ap"  class=" btn btn-default btn-sm" alt="default" >Approved</a>
+                    @if($demandcols->demand_id==null)
+                        <td>{{$demandcols->qty}}</td>
                     @else
-                    <a href="#"style="width: 80px;" id="co" class="show-modal  btn btn-warning btn-sm" alt="default" data-myid="{{$demandcols->id}}" data-mydealerid="{{$demandcols->dealer_id}}" data-myproductid="{{$demandcols->products_id}}" data-mytitle="{{$demandcols->qty}}" data-mycode="{{$demandcols->product_dealer_commision}}" data-mydescription="{{$demandcols->dp_price}}" data-mydemandno="{{$demandcols->dealer_demand_no}}" scription alt="default" data-toggle="modal" data-target="#edit" >Checkout</a>
-
-
-                    <form action="{{Route('demandletter.product.approved',$demandcols->id)}}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-primary btn-sm savebbtn" id="savebbtn" style="width: 100%;">Approve</button>
-                    </form>
-                    <form action="{{Route('demandletter.product.hold',$demandcols->id)}}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-danger btn-sm savebbtn" id="savebbtn" style="width: 100%;">Hold</button>
-                    </form>
+                    <td>{{$demandcols->painding}}</td>
                     @endif
-                    </td>
+                    <td></td>
+                    <td>
+                    @if($demandcols->demand_id==null)
+                        <input type="text" class="form-control col-md-3" style="border-color: green"  name="approve_qty[]" value="{{$demandcols->qty}}">
+                    @else
+                        <input type="text" class="form-control col-md-3" style="border-color: green"  name="approve_qty[]" value="{{$demandcols->painding}}">
+                    @endif
+                <input type="hidden" class="form-control"  name="products_id[]" value="{{$demandcols->products_id}}">
+                <input type="hidden" class="form-control"  name="demand_id[]" value="{{$demandcols->id}}">
+                    </td>                    
                 </tr>
             @endforeach
             </tbody>
         </table>
     </div>
-    </div>
-    <div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h4 class="modal-title">Update Demand</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-
-            <div class="modal-body">
-                <form class="floating-labels m-t-40" action="{{route('demandletter.check-out.create')}}"method="POST">
-                    @csrf
-                    <div class="form-group m-b-40 {{ $errors->has('name') ? 'has-error' : '' }}">
-                        <input type="hidden" class="form-control" id="mid" name="demand_id">
-                        <input type="hidden" class="form-control" id="mdealerid" name="dealer_id">
-                        <input type="hidden" class="form-control" id="mproductid" name="products_id">
-                        <input type="hidden" class="form-control" id="mdemanid" name="dealer_demand_no">
-                        <input type="hidden" class="form-control" id="mcode" name="">
-                        <input type="hidden" class="form-control" id="mdescription" name="">
-                        <input type="hidden" class="form-control" id="totalappcommision" name="">
-
-                        <label for="input1" style="position: initial;">Demand Quantity</label>
-                        <input type="text" class="form-control" id="mtitle" name="">
-                        <span class="text-danger">{{ $errors->first('name') }}</span>
-                    </div>
-
-
-                    <div class="form-group m-b-40 {{ $errors->has('name') ? 'has-error' : '' }}">
-                        <label for="input1" style="position: initial;">Approve Quantity</label>
-                        <input type="text" class="form-control mapqty" id="mapqty" name="approve_qty">
-                        <span class="text-danger">{{ $errors->first('name') }}</span>
-                    </div>
-                    <div class="form-group m-b-40 {{ $errors->has('name') ? 'has-error' : '' }}">
-                        <label for="input1" style="position: initial;">Painding Quantity</label>
-                        <input type="text" class="form-control" id="mpqty" name="">
-                        <span class="text-danger">{{ $errors->first('name') }}</span>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger waves-effect waves-light" style="width:50%" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" style="width: 50%;">UPDATE</button>
-                    </div>
-                </form>
-            </div>
+        <div class="text-center m-t-20" style="margin-bottom: 10%;">
+            <button class="btn btn-primary submit-btn" type="submit">Check Out </button>
         </div>
+    </form>
     </div>
-</div>
 </div>
 @endsection
 @push('end_js')
@@ -147,27 +117,7 @@ $(document).ready(function() {
 } );
 </script>
 <script>
-    // Edit
-    $('#edit').on('show.bs.modal',function(event){
-        console.log('hello test');
-        var button = $(event.relatedTarget)
-        var title = button.data('mytitle')
-        var code = button.data('mycode')
-        var description = button.data('mydescription')
-        var id = button.data('myid')
-        var demandid = button.data('mydemandno')
-        var dealerid = button.data('mydealerid')
-        var productid = button.data('myproductid')
 
-        var modal =$(this)
-        modal.find('.modal-body #mtitle').val(title);
-        modal.find('.modal-body #mcode').val(code);
-        modal.find('.modal-body #mdescription').val(description);
-        modal.find('.modal-body #mid').val(id);
-        modal.find('.modal-body #mdemanid').val(demandid);
-        modal.find('.modal-body #mdealerid').val(dealerid);
-        modal.find('.modal-body #mproductid').val(productid);
-    })
     $('.mapqty').on('keyup',function (event) {
         var approveQty = parseInt($(this).val());
         var demandQty = parseInt($('#mtitle').val());
@@ -229,4 +179,28 @@ $(document).ready(function(){
         });
     });
     </script>
+<script>
+$(document).ready(function(){
+        $.ajax({
+            url : '/dealer/demandletter/demandcheckmNumber',
+            type: "GET",
+            dataType: 'json',
+            success : function(data){
+                // console.log(data[0].demand_confirm_no);
+                if(data[0].demand_check_no != null)
+                {
+                    
+                    var dln = parseInt(data[0].demand_check_no)+1;
+                    console.log(dln);
+                    document.getElementById("dcno").value = dln;
+                    document.getElementById("dcnos").innerHTML = dln;
+                }
+                else{
+                    document.getElementById("dcno").value = 100001;
+                }
+                
+            }
+        });
+    });
+</script>
 @endpush

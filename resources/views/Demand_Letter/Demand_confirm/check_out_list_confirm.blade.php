@@ -15,7 +15,7 @@
         @endif
     </div>
     <div class="col-md-12" style="padding-left: 0px;">
-        <div class="card" style="height: 535px;">
+        <div class="card" style="height: auto;">
             <div class="card-body">
             <div class="row">
             <div class="col-md-6" >
@@ -26,55 +26,59 @@
             </div>
             
             </div>
-                <div class="table-responsive">
-                    <table id="example" class="display" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>SI. No</th>
-                                <th>Product Name</th>
-                                <th>Demand Qty</th>
-                                <th>Approve Qty</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($check_list as $check_lists)
-                                @if($check_lists->partial_a_s==1)
-                                    <tr>
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>{{$check_lists->product_name}}</td>
-                                        <td>{{$check_lists->demand_qty}}</td>
-                                        <td>{{$check_lists->total_approve}}</td>
-                                    </tr>
-                                @elseif($check_lists->partial_a_s==0)
-                                    <tr>
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>{{$check_lists->product_name}}</td>
-                                        <td>{{$check_lists->demand_qty}}</td>
-                                        <td>{{$check_lists->demand_qty}}</td>
-                                    </tr>
-                                @endif
-                            @endforeach 
-                        </tbody>
-                    </table>
-                </div>
-                <form action="{{Route('list.confirm')}}" method="post">
+            <form class="floating-labels m-t-40" action="{{Route('list.confirm')}}" method="post">
                 @csrf
                 @foreach($check_list as $check_lists)
                     <input type="hidden" name="c_status[]" value="{{$check_lists->id}}" >
                 @endforeach
                 <div class="col-md-6">
-                <div class="form-group">
-                    <label> Warehouse List*</label> 
-                    <select class="form-control"  name="warehouse_id"  id="warehouse" required>
-                        <option value=" ">Select Warehouses</option>
-                        @foreach($warehouses as $warehouse)
-                        <option value="{{$warehouse->id}}">{{$warehouse->factory_name}}</option>
-                        @endforeach
-                    </select>
-                    <input class="form-control" id="dcno"  name="demand_confirm_no" value="" type="hidden" />
+                    <div class="form-group">
+                        <input class="form-control" id="dcno"  name="demand_confirm_no" value="" type="hidden" />
+                        <label for="dealer">Dealer Name</label>
+                        <input type="hidden" class="form-control"  name="dealer_demand_check_out_no" value="{{$check_list[0]->dealer_demand_check_out_no}}">
+                        <input type="hidden" class="form-control"  name="dealer_demand_no" value="{{$check_list[0]->dealer_demand_no}}">
+                        <input class="form-control" id="dealer"  name="" value="{{$check_list[0]->d_s_name}}" type="text" readonly />
+                        <input class="form-control" id="dealer"  name="dealer_id" value="{{$check_list[0]->dealer_id}}" type="hidden" readonly />
+                        <input class="form-control" id="dealer"  name="ddl_check_outs_id" value="{{$check_list[0]->id}}" type="hidden" readonly />
+                        <label for="track">Track Number</label>
+                        <input class="form-control" id="track"  name="track_number" value="" type="text" />
+                    </div>
                 </div>
+                <div class="table-responsive">
+                    <table id="example" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>SI. No</th>
+                                <th>Product Code</th>
+                                <th>Order Quantity</th>
+                                <th>Delivery Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($check_list as $check_lists)
+                                @if($check_lists->approve != 0)
+                                <tr>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$check_lists->product_code}}</td>
+                                    <td>
+                                    <input type="text" class="form-control col-md-3" style="border-color: green"  name="approve_qty[]" value="{{$check_lists->approve}}" readonly>
+                                    </td>
+                                    <td>
+                                    <input type="text" class="form-control col-md-3" style="border-color: green"  name="delivery_quentity[]" value="{{$check_lists->approve}}">
+                                    <input type="hidden" class="form-control"  name="demand_id[]" value="{{$check_lists->demand_id}}">
+                                    </td>
+                                </tr>
+                                @endif
+                            @endforeach 
+                        </tbody>
+                    </table>
+                </div>
+                <input type="hidden" class="form-control"  name="products_id[]" value="{{$check_lists->products_id}}">
+                
+            <div class="text-center m-t-20" style="margin-bottom: 10%;">
+            
+                <button class="btn btn-primary submit-btn" type="submit">Delivery Confirm</button>
             </div>
-                <input type="submit" value="Confirm">
                 </form>
             </div>
         </div>

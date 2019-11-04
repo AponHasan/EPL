@@ -103,6 +103,8 @@ Route::resources([
 Route::get('product/index','ProductController@index')->name('product.index');
 Route::get('product/create','ProductController@create')->name('product.create');
 Route::post('product/store','ProductController@store')->name('product.store');
+Route::PATCH('product/update/{id}','ProductController@update')->name('product.update');
+Route::delete('product/destroy/{id}','ProductController@destroy')->name('product.destroy');
 
 //get product price
 Route::get('/dpprice/{id}','ProductController@getdpprice');
@@ -139,10 +141,11 @@ Route::post('/demand/product/approved/{id}','DemandlettercheckController@dealer_
 // Demand confirm   Order
 Route::get('/demand-confirm/productlist/{id}','DemandConfirmController@demandconfirmlist');
 Route::get('demand-check-list/','DemandConfirmController@demand_check_list')->name('check.list');
-Route::post('demand-check-list-confirm/','DemandConfirmController@demand_check_list_confirm')->name('check.list.confirm');
+Route::get('demand-check-list-confirm/{id}','DemandConfirmController@demand_check_list_confirm')->name('check.list.confirm');
 Route::post('check-list-confirm/','DemandConfirmController@check_list_confirm')->name('list.confirm');
 // demand confirm number
 Route::get('/dealer/demandletter/demandconfirmNumber','DemandConfirmController@demandconfirmNumber')->name('demandletter.demandconfirmNumber');
+Route::get('/dealer/demandletter/demandcheckmNumber','DemandConfirmController@demandcheckmNumber')->name('demandletter.demandcheckmNumber');
 
 
 
@@ -154,6 +157,37 @@ Route::get('/dealer/demandno/get/{id}','DemandConfirmController@confirmno');
 
 
 
+
+Route::post('sales/promo/status/active','SalsePromotionController@statusactive')->name('promotion.status.active');
+Route::post('sales/promo/status/deactive','SalsePromotionController@statusdeactive')->name('promotion.status.deactive');
+Route::get('/salse/promotion/index','SalsePromotionController@index')->name('promotion.index');
+Route::get('/salse/promotion','SalsePromotionController@setpromotion')->name('set.promotion');
+Route::post('/salse/promotion/set','SalsePromotionController@storesetpromotion')->name('store.set.promotion');
+
+Route::get('/salse/promotion/incentive','SalsePromotionController@setincentive')->name('set.promotion.incentive');
+Route::get('/salse/promotion/incentive/index','SalsePromotionController@indexincentive')->name('index.promotion.incentive');
+Route::post('/salse/promotion/incentive','SalsePromotionController@storesetincentive')->name('store.incentive.promotion');
+
+
+// Import
+Route::get('import/csv','CsvFileController@index')->name('import.index');
+Route::Post('import/department/csv','CsvFileController@departmentCsvImport')->name('department.import');
+Route::Post('import/dealer/csv','CsvFileController@dealerCsvImport')->name('dealer.import');
+Route::Post('import/dealer/zone/csv','CsvFileController@dealerzoneCsvImport')->name('dealer.zone.import');
+Route::Post('import/dealer/type/csv','CsvFileController@dealertypeCsvImport')->name('dealer.type.import');
+Route::Post('import/dealer/designation/csv','CsvFileController@dealerdesignationCsvImport')->name('dealer.designation.import');
+Route::Post('import/division/csv','CsvFileController@divisionCsvImport')->name('division.import');
+Route::Post('import/linem/csv','CsvFileController@lineManagerCsvImport')->name('linemanager.import');
+Route::Post('import/spo/csv','CsvFileController@spoCsvImport')->name('spo.import');
+Route::Post('import/factory/csv','CsvFileController@factoryCsvImport')->name('factory.import');
+Route::Post('import/staffcategory/csv','CsvFileController@staffcategoryCsvImport')->name('staffcategory.import');
+Route::Post('import/dealerarea/csv','CsvFileController@dealerareaCsvImport')->name('dealerarea.import');
+Route::Post('import/product/csv','CsvFileController@productCsvImport')->name('product.import');
+
+
+
+// Reports
+Route::get('delivery/challan','ChallanController@index')->name('delivary.challan');
 
 
 

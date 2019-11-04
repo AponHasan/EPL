@@ -79,7 +79,6 @@ $(document).ready(function(){
             for (i=0;i<data.length;i++)
             {
                 var id = data[i]['demand_confirm_no'];
-                // var val = data[i]['laboratory_name'];
                 selOpts += "<option value='"+id+"'>"+id+"</option>";
             }
             $('#dlcode').append(selOpts);

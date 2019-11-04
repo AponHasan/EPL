@@ -3,23 +3,26 @@
 <div class="row">
     <div class="col-md-12">
         @if ($message = Session::get('success'))
-            <div class="alert alert-success"id="success-alert">
-                <p>{{ $message }}</p>
+            <div class="alert alert-success"id="success-alert" style="color:#fff">
+                <p style="color:#fff">{{ $message }}</p>
             </div>
         @endif
 
         @if ($message = Session::get('delete'))
-            <div class="alert alert-danger" style="background-color:red"  id="danger-alert">
-                <p>{{ $message }}</p>
+            <div class="alert alert-danger" id="danger-alert" style="background-color:red"  id="danger-alert">
+                <p style="color:#fff">{{ $message }}</p>
             </div>
         @endif
     </div>
     <div class="col-md-6">
     <!-- card -->
-        <div class="card" style="height: 535px;">
+        <div class="card" style="height: ;">
             <!-- card body -->
+            <div class="card-header">
+                Create Company
+            </div>
             <div class="card-body">
-            <h3>Create Company</h3>
+            
             <!-- Create department -->
                 <form class="floating-labels m-t-40" action="{{Route('company.store')}}" method="POST">
                     @csrf
@@ -31,8 +34,7 @@
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                        
-                        
+                                                
                         <div class="col-md-12">
                             <div class="form-group m-b-5">
                                 <textarea class="form-control" rows="4" id="input7" name="company_desccription"></textarea>
@@ -55,9 +57,12 @@
         </div><!-- end card -->
     </div> <!-- end col-6 -->
     <div class="col-md-6" style="padding-left: 0px;">
-    <div class="card" style="height: 535px;">
+    <div class="card" style="height:;">
+        <div class="card-header">
+                Company List
+        </div>
             <div class="card-body">
-                <h4 class="card-title">Department List</h4>
+                
     <div class="table-responsive">
     <table id="example" class="display" style="width:100%">
         <thead>
@@ -73,8 +78,8 @@
                 <td>{{$loop->iteration}}</td>
                 <td>{{$company->company_title}}</td>
                 <td>
-                <a href="#" class="btn btn-danger btn-sm" data-myid="" data-mytitle="" data-toggle="modal" data-target="#delete"><i class="ti-trash"></i></a>
-                <a href="#" class="show-modal  btn btn-warning btn-sm" alt="default" data-myid="" data-mytitle="" data-mycode="" data-mydescription="" scription alt="default" data-toggle="modal" data-target="#edit" ><i class="ti-settings"></i></a>
+                <a href="#" class="btn btn-danger btn-sm" data-myid="{{$company->id}}" data-mytitle="" data-toggle="modal" data-target="#delete"><i class="ti-trash"></i></a>
+                <a href="#" class="show-modal  btn btn-warning btn-sm" alt="default" data-myid="{{$company->id}}" data-mytitle="{{$company->company_title}}" data-mycode="" data-mydescription="{{$company->company_desccription}}" scription alt="default" data-toggle="modal" data-target="#edit" ><i class="ti-settings"></i></a>
                 </td>
             </tr>
         @endforeach
@@ -84,18 +89,18 @@
     </div>
 </div>
     </div>
-    <!-- <div class="modal modal-danger fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal modal-danger fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: red;color:#fff">
-        <h5 class="modal-title" id="exampleModalLabel">Delete Area</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Delete Company</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       
 
-      <form action="{{route('dealersettings.area.delete','test')}}"method="POST">
+      <form action="{{route('company.destroy','test')}}"method="POST">
             {{method_field('delete')}}
             @csrf
       <div class="modal-body" >
@@ -110,31 +115,31 @@
   
     </div>
   </div>
-</div> -->
+</div>
 
-<!-- <div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div id="edit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h4 class="modal-title">Update Dealer Area</h4>
+            <h4 class="modal-title">Update Company</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 
             </div>
             <div class="modal-body">
-                <form class="floating-labels m-t-40" action="{{route('dealersettings.area.update','test')}}"method="POST">
+                <form class="floating-labels m-t-40" action="{{route('company.update','test')}}"method="POST">
                     {{method_field('patch')}}
                     @csrf
                     <div class="form-group m-b-40 {{ $errors->has('name') ? 'has-error' : '' }}">
                         <label for="input1" style="position: initial;">Type Title</label>
                         <input type="hidden" class="form-control" id="mid" name="id">
-                        <input type="text" class="form-control" id="mtitle" name="area_title">
+                        <input type="text" class="form-control" id="mtitle" name="company_title">
                         <span class="text-danger">{{ $errors->first('name') }}</span>
                     </div>
 
 
                     <div class="form-group m-b-5">
                     <label for="input7" style="position: initial;">Description</label>
-                        <input type="textarea" class="form-control" rows="4" id="mdescription" name="area_description">
+                        <input type="textarea" class="form-control" rows="4" id="mdescription" name="company_desccription">
                         <span class="bar"></span>
                     </div>
                     <div class="modal-footer">
@@ -145,7 +150,7 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>
 
 </div>
 @endsection

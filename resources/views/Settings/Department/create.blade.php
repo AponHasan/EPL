@@ -4,13 +4,13 @@
     <div class="col-md-12">
         @if ($message = Session::get('success'))
             <div class="alert alert-success"id="success-alert">
-                <p>{{ $message }}</p>
+                <p style="color:#fff">{{ $message }}</p>
             </div>
         @endif
 
         @if ($message = Session::get('delete'))
             <div class="alert alert-danger" style="background-color:red"  id="danger-alert">
-                <p>{{ $message }}</p>
+                <p style="color:#fff">{{ $message }}</p>
             </div>
         @endif
     </div>
@@ -73,8 +73,8 @@
                 <td>{{$loop->iteration}}</td>
                 <td>{{$departments->department_title}}</td>
                 <td>
-                <a href="#" class="btn btn-danger btn-sm" data-myid="" data-mytitle="" data-toggle="modal" data-target="#delete"><i class="ti-trash"></i></a>
-                <a href="#" class="show-modal  btn btn-warning btn-sm" alt="default" data-myid="" data-mytitle="" data-mycode="" data-mydescription="" scription alt="default" data-toggle="modal" data-target="#edit" ><i class="ti-settings"></i></a>
+                <a href="#" class="btn btn-danger btn-sm" data-myid="{{$departments->id}}" data-mytitle="" data-toggle="modal" data-target="#delete"><i class="ti-trash"></i></a>
+                <a href="#" class="show-modal  btn btn-warning btn-sm" alt="default" data-myid="{{$departments->id}}" data-mytitle="{{$departments->department_title}}" data-mycode="" data-mydescription="{{$departments->department_desccription}}" scription alt="default" data-toggle="modal" data-target="#edit" ><i class="ti-settings"></i></a>
                 </td>
             </tr>
         @endforeach
@@ -88,14 +88,14 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: red;color:#fff">
-        <h5 class="modal-title" id="exampleModalLabel">Delete Area</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Delete Department</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       
 
-      <form action="{{route('dealersettings.area.delete','test')}}"method="POST">
+      <form action="{{route('department.destroy','test')}}"method="POST">
             {{method_field('delete')}}
             @csrf
       <div class="modal-body" >
@@ -117,25 +117,25 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h4 class="modal-title">Update Dealer Area</h4>
+            <h4 class="modal-title">Update Department</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 
             </div>
             <div class="modal-body">
-                <form class="floating-labels m-t-40" action="{{route('dealersettings.area.update','test')}}"method="POST">
+                <form class="floating-labels m-t-40" action="{{route('department.update','test')}}"method="POST">
                     {{method_field('patch')}}
                     @csrf
                     <div class="form-group m-b-40 {{ $errors->has('name') ? 'has-error' : '' }}">
                         <label for="input1" style="position: initial;">Type Title</label>
                         <input type="hidden" class="form-control" id="mid" name="id">
-                        <input type="text" class="form-control" id="mtitle" name="area_title">
+                        <input type="text" class="form-control" id="mtitle" name="department_title">
                         <span class="text-danger">{{ $errors->first('name') }}</span>
                     </div>
 
 
                     <div class="form-group m-b-5">
                     <label for="input7" style="position: initial;">Description</label>
-                        <input type="textarea" class="form-control" rows="4" id="mdescription" name="area_description">
+                        <input type="textarea" class="form-control" rows="4" id="mdescription" name="department_desccription">
                         <span class="bar"></span>
                     </div>
                     <div class="modal-footer">

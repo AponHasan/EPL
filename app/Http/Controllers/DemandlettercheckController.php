@@ -15,9 +15,18 @@ class DemandlettercheckController extends Controller
 {
     public function dealer_demand_list($id)
     {
-        $demandcol = DB::select('SELECT dealer_demands.id,dealer_demands.date,dealer_demands.dealer_id,dealer_demands.products_id,dealer_demands.dp_price,dealer_demands.qty,dealer_demands.p_cost,dealer_demands.p_dsc,dealer_demands.dealer_demand_no,dealers.d_s_name,products.product_name,products.product_dealer_commision,dealer_demands.demand_hold_status,dealer_demands.demand_approve_status from dealer_demands LEFT JOIN dealers ON dealers.id = dealer_demands.dealer_id LEFT JOIN products ON products.id = dealer_demands.products_id WHERE dealer_demand_no="'.$id.'"');
+        $warehouses = Factory::latest('id')->get();
+        $demandcol = DB::select('SELECT dealer_demands.id,ddl_check_outs.demand_id,dealer_demands.date,dealer_demands.dealer_id,dealers.d_s_name,
+        dealer_demands.dealer_demand_no,dealer_demands.products_id,products.product_name,dealer_demands.qty,
+        sum(ddl_check_outs.approve_qty) as approve_qty, ((dealer_demands.qty)-(sum(ddl_check_outs.approve_qty))) as painding
+        FROM dealer_demands
+        LEFT JOIN ddl_check_outs ON ddl_check_outs.demand_id = dealer_demands.id
+        LEFT JOIN dealers ON dealers.id = dealer_demands.dealer_id
+        LEFT JOIN products ON products.id = dealer_demands.products_id
+        WHERE dealer_demands.dealer_demand_no="'.$id.'"
+        GROUP BY dealer_demands.id');
         // dd($demandcol);
-        return view('Demand_Letter.Epl_demand_check.create',compact('demandcol'));
+        return view('Demand_Letter.Epl_demand_check.create',compact('demandcol','warehouses'));
     }
 
     public function dealer_demand_unhold($id)
@@ -42,19 +51,35 @@ class DemandlettercheckController extends Controller
     {
 
         // dd($request);
-        $dealer_demands =  Dealer_demand::find($request->dealer_id);
+      
 
-        dd($dealer_demands);
+        $request->validate([
 
-        $ddl_check_out = new Ddl_check_out;
-        $ddl_check_out->demand_id = $request->demand_id;
-        $ddl_check_out->dealer_id = $request->dealer_id;
-        $ddl_check_out->products_id = $request->products_id;
-        $ddl_check_out->dealer_demand_no = $request->dealer_demand_no;
-        $ddl_check_out->approve_qty = $request->approve_qty;
-        $ddl_check_out->save();
-        return ('ok');
-        // return redirect()->route('department.index')
-        //                 ->with('success','Departmemnt Create Successfull');
+            'warehouse_id' => 'required',
+        
+        ],['warehouse_id.required'=>'Please Select The Warehouse']);
+
+
+        // dd($dealer_demands);
+        $date = date("Y-m-d");
+        foreach ($request->products_id as $key => $demandcheck) {
+            $data =array('approve_date'=>$date, 
+            'dealer_id'=>$request->dealer_id,
+            'demand_id'=>$request->demand_id[$key],
+            'dealer_demand_no'=>$request->dealer_demand_no,
+            'warehouse_id'=>$request->warehouse_id,
+            'dealer_demand_check_out_no'=>$request->dealer_demand_check_out_no,
+            'approve_qty'=>($request->approve_qty[$key])?? 0,
+            'painding_qty'=>($request->approve_qty[$key])?? 0,
+            'products_id'=>$request->products_id[$key]);
+            Ddl_check_out::insert($data);
+        }
+        return redirect()->route('demandletter.index')
+                        ->with('success','Demand Checkout Successfull');
+    }
+
+    public function test(Request $request)
+    {
+        dd($request);
     }
 }

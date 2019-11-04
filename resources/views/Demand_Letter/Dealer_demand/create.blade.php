@@ -2,6 +2,7 @@
 @section('title','Home')
 @section('content-title','GMEBD')
 @push('breadcrumb')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" />
 <style>
 div.dataTables_wrapper div.dataTables_filter input
 {
@@ -52,7 +53,7 @@ div.dataTables_wrapper div.dataTables_filter input
             
             <div class="col-md-3">
                 <label>Select Product *</label> 
-                <select class="form-control"  name="product"  id="products_id" required>
+                <select class="form-control selectpicker" data-show-subtext="true" data-live-search="true"  name="product"  id="products_id" required>
                     <option value=" " selectedS>Select Product</option>
                     @foreach($products as $product)
                     <option value="{{$product->id}}">{{$product->product_name}}</option>
@@ -125,6 +126,14 @@ div.dataTables_wrapper div.dataTables_filter input
 </div>
 @endsection
 @push('end_js')
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-*.min.js"></script>
 <script>
 // demand Number generate
 $(document).ready(function(){
@@ -133,26 +142,28 @@ $(document).ready(function(){
             type: "GET",
             dataType: 'json',
             success : function(data){
-                // console.log(data[0].dealer_demand_no)
-                if(data[0].dealer_demand_no != null)
-                {
-                    var today = new Date();
-                    var year = today.getFullYear();
-                    var month =today.getMonth()+1;
-                    var date =today.getDate();
-                    console.log(year);
-                    console.log(month);
-                    console.log(date);
-                    var dln = parseInt(data[0].dealer_demand_no)+1;
-                    // console.log(dln);
-                    document.getElementById("dlno").value = dln;
-                    document.getElementById("dlnos").innerHTML = dln;
-                }
-                else{
-                    document.getElementById("dlno").value = 00001;
-                }
-                
-            }
+              
+              // console.log(data.length!=0)
+              if(data.length!=0)
+              {
+                  var today = new Date();
+                  var year = today.getFullYear();
+                  var month =today.getMonth()+1;
+                  var date =today.getDate();
+                  console.log(year);
+                  console.log(month);
+                  console.log(date);
+                  var dln = parseInt(data[0].dealer_demand_no)+1;
+                  // console.log(dln);
+                  document.getElementById("dlno").value = dln;
+                  document.getElementById("dlnos").innerHTML = dln;
+              }
+              else{
+                  document.getElementById("dlno").value = 100001;
+                  document.getElementById("dlnos").innerHTML = 100001;
+              }
+              
+          }
         });
     });
 

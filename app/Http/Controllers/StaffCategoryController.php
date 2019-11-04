@@ -72,19 +72,28 @@ class StaffCategoryController extends Controller
      * @param  \App\StaffCategory  $staffCategory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, StaffCategory $staffCategory)
+    public function update(Request $request, $id)
     {
-        //
+        // dd($request);
+        $request->validate([
+            'staff_cate_title' => 'required',
+        ]);
+  
+        StaffCategory::findOrFail($request->id)->update($request->all());
+        return redirect()->route('staffcateory.index')
+                        ->with('department', 'Staff Category Update  successfully .');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\StaffCategory  $staffCategory
+     * @param  \App\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function destroy(StaffCategory $staffCategory)
+    public function destroy(Request $request, $id)
     {
-        //
+        StaffCategory::findOrFail($request->id)->Delete($request->all());
+        return redirect()->route('staffcateory.index')
+                        ->with('delete', 'Staff Category Delete  successfully .');
     }
 }
