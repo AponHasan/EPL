@@ -68,6 +68,7 @@ Route::post('dealersettings/linemanager/create','DealerLineManagerController@pos
 
 Route::resources([
     'department'=>'DepartmentController',
+    'bank'=>'BankController',
     'unit'=>'UnitController',
     'division'=>'DivisionController',
     'designation'=>'DesignationController',
@@ -183,6 +184,31 @@ Route::Post('import/factory/csv','CsvFileController@factoryCsvImport')->name('fa
 Route::Post('import/staffcategory/csv','CsvFileController@staffcategoryCsvImport')->name('staffcategory.import');
 Route::Post('import/dealerarea/csv','CsvFileController@dealerareaCsvImport')->name('dealerarea.import');
 Route::Post('import/product/csv','CsvFileController@productCsvImport')->name('product.import');
+
+
+// Accounts
+Route::get('accounts/collection/index','Account\CollectionController@index')->name('collection.index');
+Route::get('accounts/collection','Account\CollectionController@collection')->name('accounts.collection');
+Route::post('accounts/collection','Account\CollectionController@storecollection')->name('collection.amount');
+
+
+Route::get('dealer/collection/target/index','Account\CollectionController@dtarget')->name('dealer.collection.dtarget');
+Route::get('dealer/collection/target/set','Account\CollectionController@dtargetset')->name('dealer.collection.dtarget.set');
+Route::post('dealer/target/set','Account\CollectionController@dealertargetset')->name('dealer.target.set');
+
+Route::get('linemanager/collection/target/index','Account\CollectionController@lmtarget')->name('linemanager.collection.lmtarget');
+Route::get('linemanager/collection/target/set','Account\CollectionController@lmtargetset')->name('linemanager.collection.lmtarget.set');
+Route::post('linemanager/target/set','Account\CollectionController@linemanagertargetset')->name('linemanager.target.set');
+
+Route::get('spo/collection/target/index','Account\CollectionController@starget')->name('spo.collection.starget');
+Route::get('spo/collection/target/set','Account\CollectionController@stargetset')->name('spo.collection.starget.set');
+Route::post('spo/target/set','Account\CollectionController@spotargetset')->name('spo.target.set');
+
+Route::get('other/collection/target/index','Account\CollectionController@otarget')->name('other.collection.otarget');
+Route::get('other/collection/target/set','Account\CollectionController@otargetset')->name('other.collection.otarget.set');
+Route::post('other/target/set','Account\CollectionController@othertargetset')->name('other.target.set');
+
+
 
 
 
