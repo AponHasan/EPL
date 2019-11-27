@@ -53,6 +53,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function user_role()
+    {
+        return $this->hasOne(Role_user::class,'user_id','id');
+    }
+
     /**
      * This Build relations to Group Model
      * @return many-to-many

@@ -15,36 +15,33 @@
             <div class="card-body">
             <h3>Set Dealer Info</h3>
             <!-- Create department -->
-                <form class="floating-labels m-t-40" action="{{Route('dealer.postcreate')}}"method="POST">
+                <form class="floating-labels m-t-40" action="{{Route('dealer.postdealeredit')}}"method="POST">
                     @csrf
+                    <input type="hidden" name="id" value="{{$dealers[0]->id}}">
                     <div class="row" style="border-bottom: 3px solid thistle;margin-bottom: 25px;"> 
                         <div class="col-md-6">
                             <div class="form-group m-b-40">
                             <label for="dtitle">Dealer Title</label>
-                                <input type="text" class="form-control" id="dtitle"  name="d_s_name" required>
+                                <input type="text" class="form-control" id="dtitle" value="{{$dealers[0]->d_s_name}}"  name="d_s_name" required>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group m-b-40">
                             <label for="dmail">Dealer Email</label>
-                                <input type="mail" class="form-control" id="dmail"  name="d_s_mail" required>
+                                <input type="mail" class="form-control" id="dmail" value="{{$dealers[0]->email}}"  name="d_s_mail" required>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group m-b-40">
-                            <label for="dpass">Password</label>
-                                <input type="password" class="form-control" id="dpass"  name="password" required>
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="row">
+                    <div class="col-md-6">SPO</div>
+                    <div class="col-md-6">Line Manager</div>
                         <div class="col-md-6">
                             <div class="form-group m-b-40">
                                 <select class="form-control" style="padding: 0px 10px 10px 10;" name="dlr_spo_id">
-                                <option value="">Select SOP</option>
+                                <option value="{{$dealers[0]->dlr_spo_id}}">{{$dealers[0]->spo_name}}</option>
                                 @foreach($dealerspo as $dspo)
                                     <option value="{{$dspo->id}}">{{$dspo->sop_name}}</option>
                                 @endforeach
@@ -54,7 +51,7 @@
                         <div class="col-md-6">
                             <div class="form-group m-b-40">
                                 <select class="form-control" style="padding: 0px 10px 10px 10;" name="dlr_lm_id">
-                                <option value="">Select Line Manager</option>
+                                <option value="{{$linem[0]->dlr_lm_id}}">{{$linem[0]->lm_name}}</option>
                                 @foreach($dealerlm as $dlm)
                                     <option value="{{$dlm->id}}">{{$dlm->lm_name}}</option>
                                 @endforeach
@@ -64,40 +61,23 @@
                         <div class="col-md-6">
                             <div class="form-group m-b-40">
                             <label for="prname">Proprietor Name</label>
-                                <input type="text" class="form-control" id="prname"  name="d_proprietor_name">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group m-b-40">
-                            <label for="dscode">DS Code</label>
-                                <input type="text" class="form-control" id="dscode"  name="d_s_code">
-                                <span class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group m-b-40">
-                            <label for="dcode">Dealer Code</label>
-                                <input type="text" class="form-control" id="dcode"  name="dlr_code">
+                                <input type="text" class="form-control" id="prname"  value="{{$dealers[0]->d_proprietor_name}}" name="d_proprietor_name">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                         
                         <div class="col-md-6">
                             <div class="form-group m-b-40">
-                                <select class="form-control" style="padding: 0px 10px 10px 10;" name="dlr_type_id">
-                                <option value="">Select Dealer Type</option>
-                                @foreach($dealertype as $dtype)
-                                    <option value="{{$dtype->id}}">{{$dtype->type_title}}</option>
-                                @endforeach
-                                       
-                                </select>
+                            <label for="dcode">Dealer Code</label>
+                                <input type="text" class="form-control" id="dcode"  value="{{$dealers[0]->dlr_code}}" name="dlr_code">
+                                <span class="text-danger"></span>
                             </div>
                         </div>
+                        
                         <div class="col-md-6">
                             <div class="form-group m-b-40">
                             <span class="text">Dealer OP Date</span>
-                                <input type="date" class="form-control" id="totoals"  name="dlr_op_date">
+                                <input type="date" class="form-control" id="totoals"  value="{{$dealers[0]->dlr_op_date}}" name="dlr_op_date">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -124,7 +104,7 @@
                         <div class="col-md-6">
                             <div class="form-group m-b-40">
                             <label for="pstation">Police Station</label>
-                                <input type="text" class="form-control" id="pstation"  name="dlr_police_station">
+                                <input type="text" class="form-control" id="pstation"  value="{{$dealers[0]->dlr_police_station}}" name="dlr_police_station">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -142,21 +122,21 @@
                         <div class="col-md-6">
                             <div class="form-group m-b-40">
                             <label for="dmobile">Dealer Mobile</label>
-                                <input type="text" class="form-control" id="dmobile"  name="dlr_mobile_no">
+                                <input type="text" class="form-control" id="dmobile"  value="{{$dealers[0]->dlr_mobile_no}}" name="dlr_mobile_no">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group m-b-40">
                             <label for="dbase">Dealer Base</label>
-                                <input type="text" class="form-control" id="dbase"  name="dlr_base">
+                                <input type="text" class="form-control" id="dbase"  value="{{$dealers[0]->dlr_base}}" name="dlr_base">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group m-b-40">
                             <label for="dsm">Dealer DSM</label>
-                                <input type="text" class="form-control" id="dsm"  name="dlr_dsm">
+                                <input type="text" class="form-control" id="dsm"  value="{{$dealers[0]->dlr_dsm}}" name="dlr_dsm">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
@@ -173,13 +153,13 @@
                         <div class="col-md-6">
                             <div class="form-group m-b-40">
                             <label for="dtlic">Dealer Tred Lisence</label>
-                                <input type="text" class="form-control" id="dtlic"  name="dlr_tred_lisence">
+                                <input type="text" class="form-control" id="dtlic"  value="{{$dealers[0]->dlr_tred_lisence}}" name="dlr_tred_lisence">
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group m-b-5">
-                                <textarea class="form-control" rows="4" id="input7" name="dlr_address"></textarea>
+                                <textarea class="form-control" rows="4" id="input7" value="{{$dealers[0]->dlr_address}}" name="dlr_address"></textarea>
                                 <span class="bar"></span>
                                 <label for="input7">Address</label>
                             </div>
@@ -187,7 +167,7 @@
                         <div class="col-md-6">
                             <div class="form-group m-b-40">
                             <label for="tinn">Dealer Tin Number</label>
-                                <input type="text" class="form-control" id="tinn"  name="dlr_tin_number">
+                                <input type="text" class="form-control" id="tinn" value="{{$dealers[0]->dlr_tin_number}}"  name="dlr_tin_number">
                                 <span class="text-danger"></span>
                             </div>
                         </div>

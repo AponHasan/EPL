@@ -48,6 +48,7 @@ div.dataTables_wrapper div.dataTables_filter input
                         </ul>
                     </div>
                 @endif
+                @if(Auth::user()->user_role->role_id==1)
                 <div class="col-md-4" style="margin-top:10px;">
                     <div class="form-group m-b-40 " >
                         <label for="input1">Warehouse</label>
@@ -59,6 +60,7 @@ div.dataTables_wrapper div.dataTables_filter input
                         </select>
                     </div>
                 </div>
+                @endif
             </div>
             
         <div class="table-responsive">
@@ -97,9 +99,11 @@ div.dataTables_wrapper div.dataTables_filter input
             </tbody>
         </table>
     </div>
+    @if(Auth::user()->user_role->role_id==1)
         <div class="text-center m-t-20" style="margin-bottom: 10%;">
             <button class="btn btn-primary submit-btn" type="submit">Check Out </button>
         </div>
+    @endif
     </form>
     </div>
 </div>

@@ -40,7 +40,7 @@
                                 <td>{{$dlr->dlr_address}}</td>
                                 <td>
                                     <a href="#" class="btn btn-danger btn-sm" ><i class="ti-trash"></i></a>
-                                    <a href="sdfs" class="show-modal  btn btn-warning btn-sm" alt="default"><i class="ti-settings"></i></a>
+                                    <a href="{{route('dealer.getedit',$dlr->id)}}" class="show-modal  btn btn-warning btn-sm" alt="default"><i class="ti-settings"></i></a>
                                 </td>
                             </tr> 
                             @endforeach 

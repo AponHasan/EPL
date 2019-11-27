@@ -28,5 +28,6 @@ class Dealer extends Model
         'dlr_tred_lisence',
         'dlr_tin_number',
         'dlr_active_status',
+		'password'
         ];
 }

@@ -11,6 +11,9 @@ use App\Department;
 use App\Designation;
 use App\Division;
 use App\Company;
+use App\User;
+use App\Role_user;
+use DB;
 
 class EmployeeController extends Controller
 {
@@ -81,6 +84,46 @@ class EmployeeController extends Controller
     public function delete(Type $var = null)
     {
         # code...
+    }
+
+    public function getempname($id)
+    {
+      
+        $empname = DB::select('SELECT employees.emp_name FROM `employees` WHERE employees.id="'.$id.'"');
+        // dd($empname);
+        return($empname);
+    
+    }
+
+
+    public function passwordset()
+    {
+        $employees = Employee::latest('id')->where('user_id','=',null)->where('emp_designation_id','=','6')->get();
+        // dd($employees);
+        return view('employee.credential.spopassword',compact('employees'));
+    }
+
+    public function password(Request $request)
+    {
+        $password=trim($request->emp_password);
+        
+        $empid = $request->emp_id;
+        $user = new User;
+            $user->name                                 = $request->emp_name;
+            $user->email                                = $request->emp_mail;
+            $user->password                             = bcrypt($password);
+            $user->save();
+
+        $userrole = new Role_user;
+            $userrole->role_id      = 3;
+            $userrole->user_id      = $user->id;
+            $userrole->save();
+
+
+           $empid = Employee::find($empid);
+           $empid ->user_id=$user->id;
+           $empid ->save();
+           return back()->with('success','Password set Successfully');
     }
 
 

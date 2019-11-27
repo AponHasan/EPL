@@ -55,6 +55,7 @@
                       </div>
 
                       <ul class="list-unstyled components">
+                      @if(Auth::user()->user_role->role_id==1)
                           <li class="active">
                               <a href="#itemSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Item Settings</a>
                               <ul class="collapse list-unstyled" id="itemSubmenu">
@@ -66,6 +67,7 @@
                                   </li>
                               </ul>
                           </li>
+                          
                           <li>
                               <a href="#demandSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Demand Letter</a>
                               <ul class="collapse list-unstyled" id="demandSubmenu">
@@ -80,6 +82,7 @@
                                   </li>
                               </ul>
                           </li>
+
                           <li>
                               <a href="#empSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Inventory</a>
                               <ul class="collapse list-unstyled" id="empSubmenu">
@@ -149,6 +152,21 @@
                                   </li>
                               </ul>
                           </li>
+                          @elseif((Auth::user()->user_role->role_id==2)||Auth::user()->user_role->role_id==3)
+                          <li>
+                              <a href="#demandSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Demand Letter</a>
+                              <ul class="collapse list-unstyled" id="demandSubmenu">
+                                  <li>
+                                      <a href="{{Route('demandletter.index')}}">Dealer Demand List</a>
+                                  </li>
+                                  <li>
+                                      <a href="{{Route('dealer.demand')}}">Dealer Demand</a>
+                                  </li>
+                                  
+                              </ul>
+                          </li>
+                          @else
+                          @endif
                       </ul>
                   </nav>
                 </div>

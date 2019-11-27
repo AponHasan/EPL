@@ -9,15 +9,38 @@ use App\Employee;
 use App\Dealer;
 use App\Dealer_demand;
 use App\Ddl_check_out;
+use Auth;
 use DB;
 
 class DemandController extends Controller
 {
     public function index()
-    {
-        $dealerdemanlist = DB::select('SELECT dealers.d_s_name ,dealer_demands.date,dealer_demands.dealer_demand_no,SUM(dealer_demands.qty) as orderqty, SUM(dealer_demands.p_dsc) as dcommission, SUM(dealer_demands.p_cost) as dproductcost FROM dealer_demands LEFT JOIN dealers ON dealers.id = dealer_demands.dealer_id GROUP BY dealers.d_s_name, dealer_demands.date,dealer_demands.dealer_demand_no');
+    {   
+        $id = Auth::id();
+        $emp_id = DB::select('SELECT employees.id FROM `employees` WHERE employees.user_id="'.$id.'"');
+        // dd($emp_id[0]->id);
+        $authid = $id = Auth::id();
+        $dealerid = DB::select('SELECT dealers.id as did FROM dealers
+        WHERE dealers.user_id ="'.$authid.'" ');
+        // dd($dealerid[0]->did);
+        if(Auth::user()->user_role->role_id==1)
+        {
+            $dealerdemanlist = DB::select('SELECT dealers.d_s_name ,dealer_demands.date,dealer_demands.dealer_demand_no,SUM(dealer_demands.qty) as orderqty, SUM(dealer_demands.p_dsc) as dcommission, SUM(dealer_demands.p_cost) as dproductcost FROM dealer_demands LEFT JOIN dealers ON dealers.id = dealer_demands.dealer_id GROUP BY dealers.d_s_name, dealer_demands.date,dealer_demands.dealer_demand_no');
+
+            return view('Demand_Letter.Dealer_demand.index',compact('dealerdemanlist'));
+        }
+        elseif(Auth::user()->user_role->role_id==2){
+
+            $dealerdemanlist = DB::select('SELECT dealers.d_s_name ,dealer_demands.date,dealer_demands.dealer_demand_no,SUM(dealer_demands.qty) as orderqty, SUM(dealer_demands.p_dsc) as dcommission, SUM(dealer_demands.p_cost) as dproductcost FROM dealer_demands LEFT JOIN dealers ON dealers.id = dealer_demands.dealer_id where dealer_demands.dealer_id = "'.$dealerid[0]->did.'" GROUP BY dealers.d_s_name, dealer_demands.date,dealer_demands.dealer_demand_no');
 
         return view('Demand_Letter.Dealer_demand.index',compact('dealerdemanlist'));
+
+        }else{
+            $dealerdemanlist = DB::select('SELECT dealers.d_s_name,dealers.dlr_spo_id ,dealer_demands.date,dealer_demands.dealer_demand_no,SUM(dealer_demands.qty) as orderqty, SUM(dealer_demands.p_dsc) as dcommission, SUM(dealer_demands.p_cost) as dproductcost FROM dealer_demands LEFT JOIN dealers ON dealers.id = dealer_demands.dealer_id where dealers.dlr_spo_id = "'.$emp_id[0]->id.'" GROUP BY dealers.d_s_name,dealers.dlr_spo_id, dealer_demands.date,dealer_demands.dealer_demand_no');
+
+            return view('Demand_Letter.Dealer_demand.index',compact('dealerdemanlist'));
+        }
+        
     }
 
     public function demandeNumber()
@@ -34,10 +57,29 @@ class DemandController extends Controller
 
     public function demandcreate()
     {
-        $products = Product::latest('id')->get();
-        $dealers = Dealer::latest('id')->get();
-        $factoryes = Factory::latest('id')->get();
-       return view('Demand_Letter.Dealer_demand.create',compact('products','factoryes','dealers'));
+        
+        if(Auth::user()->user_role->role_id==3)
+        {
+            $id = Auth::id();
+            $emp_id = DB::select('SELECT employees.id FROM `employees` WHERE employees.user_id="'.$id.'"');
+            // dd($emp_id[0]->id);
+            $dealerlogid = Dealer::latest('id')->where('user_id','=',$id)->get();
+            $products = Product::latest('id')->get();
+            $dealers = Dealer::latest('id')->get();
+            $d_w_spo = Dealer::latest('id')->where('dlr_spo_id','=',$emp_id[0]->id)->get();
+            // dd($d_w_spo);
+            $factoryes = Factory::latest('id')->get();
+            return view('Demand_Letter.Dealer_demand.create',compact('d_w_spo','products','factoryes','dealers','dealerlogid'));
+        }else
+        {
+            $id = Auth::id();
+            $dealerlogid = Dealer::latest('id')->where('user_id','=',$id)->get();
+            $products = Product::latest('id')->get();
+            $dealers = Dealer::latest('id')->get();
+            $factoryes = Factory::latest('id')->get();
+            return view('Demand_Letter.Dealer_demand.create',compact('products','factoryes','dealers','dealerlogid'));
+        }
+       
     }
 
     public function getproductprice($id)

@@ -41,6 +41,12 @@ return [
             'provider' => 'users',
         ],
 
+        'dealerguard' => [
+            'driver' => 'session',
+            'provider' => 'dealers',
+        ],
+
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -69,6 +75,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+
+        'dealers' => [
+            'driver' => 'eloquent',
+            'model' => App\Dealer::class,
         ],
 
         // 'users' => [

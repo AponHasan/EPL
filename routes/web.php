@@ -15,6 +15,18 @@ Route::get('/', function () {
     return view('newwelcome');
 });
 
+//Start Dealer  Section
+
+Route::get('/dealer-login', function () {
+    return view('Dealer.login');
+});
+
+
+Route::post('login-check','Dealer\LoginController@login')->name('dealer.login');
+
+
+
+// End Dealer  Section
 Route::get('/admin', function () {
     return view('layouts.app-layout');
 });
@@ -27,10 +39,16 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-
+//dealer
 Route::get('/dealer/index','DealerController@index')->name('dealer.index');
 Route::get('/dealer/create','DealerController@getcreate')->name('dealer.getcreate');
 Route::post('/dealer/create','DealerController@postcreate')->name('dealer.postcreate');
+
+Route::get('/dealer/edit/{id}','DealerController@getedit')->name('dealer.getedit');
+Route::post('/dealer/update/','DealerController@postdealeredit')->name('dealer.postdealeredit');
+
+Route::get('/dealer/passwordset','DealerController@passwordset')->name('dealer.passwordset');
+Route::post('/dealer/passwordset','DealerController@password')->name('dealer.password');
 
 
 // Dealer Zone
@@ -79,9 +97,13 @@ Route::resources([
 
 
 // Employee
+Route::get('/emp/name/get/{id}','EmployeeController@getempname');
 Route::get('/employee/index','EmployeeController@index')->name('emp.index');
 Route::get('/employee/create','EmployeeController@create')->name('emp.create');
 Route::post('/employee/create','EmployeeController@store')->name('emp.store');
+
+Route::get('/spo/passwordset','EmployeeController@passwordset')->name('spo.passwordset');
+Route::post('/spo/passwordset','EmployeeController@password')->name('spo.password');
 
 //comments
 Route::post('/home','CommentsController@commentpost')->name('comment.post');
