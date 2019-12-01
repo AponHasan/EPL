@@ -231,6 +231,12 @@ Route::get('other/collection/target/set','Account\CollectionController@otargetse
 Route::post('other/target/set','Account\CollectionController@othertargetset')->name('other.target.set');
 
 
+//Commission Set
+Route::get('/incentiv/info/get/{id}','Account\CollectionController@getincinfo');
+
+Route::get('commission/incentive/index','Account\CollectionController@commisioninc')->name('commission.incentive.index');
+Route::get('commission/incentive/create','Account\CollectionController@commision_inc_create')->name('commission.incentive.create');
+Route::post('commission/incentive/store','Account\CollectionController@commision_inc_store')->name('commission.incentive.store');
 
 
 

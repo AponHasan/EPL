@@ -1,4 +1,3 @@
-
 @extends('layouts.app-layout')
 @section('page-content')
 <div class="row">
@@ -21,10 +20,10 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-md-3">
-                Dealer Target
+                Commission incentive Set
                 </div>
                 <div class="col-md-9" align="right">
-                    <a href="{{route('dealer.collection.dtarget.set')}}" class="btn btn-primary btn-sm">Target Set</a>
+                    <a href="{{route('commission.incentive.create')}}" class="btn btn-primary btn-sm">New Incentive</a>
                 </div>
             </div>
         </div>
@@ -35,25 +34,19 @@
                             <tr>
                                 <th>SI. No</th>
                                 <th>Title</th>
-                                <th>Target Time</th>
                                 <th>Target Amount</th>
-                                <th>Commistion(%)</th>
-                                <th>Achieve Amount</th>
-                                <th>Action</th>
+                                <th>Achive</th>
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($dCommisions as $dCommision)
+                        @foreach($commission_inc as $commission_in)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$dCommision->title}}</td>
-                                <td align="center">{{$dCommision->from_date}} </br> TO </br> {{$dCommision->to_date}}</td>
-                                <td>{{$dCommision->traget_amount}}</td>
-                                <td>{{$dCommision->achieve_commistion}} %</td>
-                                <td>Calculeting..</td>
-                                <td></td>
+                                <td>{{$commission_in->title}}</td>
+                                <td>{{$commission_in->target_amount}} TK</td>
+                                <td>{{$commission_in->achive_commision}} %</td>
                             </tr>
-                            @endforeach
+                        @endforeach
                         </tbody>
                     </table>
                 </div>

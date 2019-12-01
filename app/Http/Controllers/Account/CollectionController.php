@@ -12,6 +12,7 @@ use App\Lmcommisiontarget;
 use App\Othertarget;
 use App\Spocommisiontarget;
 use App\Employee;
+use App\CommissionIn;
 use DB;
 
 class CollectionController extends Controller
@@ -52,25 +53,67 @@ class CollectionController extends Controller
     }
 
 
+    
+
+    // Commission Incentive set 
+
+    public function commisioninc()
+    {
+        $commission_inc = CommissionIn::latest('id')->get();
+        return view('Account.Commission_ins.index',compact('commission_inc'));
+    }
+
+    public function commision_inc_create()
+    {
+        return view('Account.Commission_ins.create');
+    }
+
+    public function commision_inc_store(Request $request)
+    {
+
+        $commissionin = new CommissionIn;
+        $commissionin->title      = $request->title;
+        $commissionin->target_amount      = $request->target_amount;
+        $commissionin->achive_commision      = $request->achive_commision;
+        $commissionin->description      = $request->description;
+        $commissionin->save();
+        return redirect()->route('commission.incentive.index')
+                        ->with('success', 'Commission Incentive Set successfully .');
+    }
+
+    public function getincinfo($id)
+    {
+        $getinfo = DB::select('select * from commission_ins where id = "'.$id.'"');
+        return $getinfo;
+    }
+
+
+    // end Commission incentive Set
+
+
+
+
     // Dealer Target set
     public function dtarget()
     {
-        $dealers = DB::select('SELECT dealers.d_s_name,dealers.d_s_code,dealercommisiontargets.dealer_id,dealercommisiontargets.traget_amount,dealercommisiontargets.achieve_commistion,dealercommisiontargets.from_date,dealercommisiontargets.to_date,dealercommisiontargets.active_status FROM `dealercommisiontargets`
-        LEFT JOIN dealers on dealers.id = dealercommisiontargets.dealer_id');
-        return view('Account.Collectiontarget.Dealer.index',compact('dealers'));
+        $dCommisions = DB::select('SELECT `cominc_id`, `traget_amount`, `achieve_commistion`, `from_date`, `to_date`,commission_ins.title FROM `dealercommisiontargets`
+        LEFT JOIN commission_ins ON commission_ins.id = dealercommisiontargets.cominc_id');
+        return view('Account.Collectiontarget.Dealer.index',compact('dCommisions'));
     }
 
     public function dtargetset()
     {
         $dealers = Dealer::latest('id')->get();
-        return view('Account.Collectiontarget.Dealer.targetset',compact('dealers'));
+        
+        $commission_inc = CommissionIn::latest('id')->get();
+        return view('Account.Collectiontarget.Dealer.targetset',compact('commission_inc'));
     }
 
 
     public function dealertargetset(Request $request)
     {
         $dealerstar = new Dealercommisiontarget;
-        $dealerstar->dealer_id = $request->dealer_id;
+        $dealerstar->cominc_id = $request->cominc_id;
         $dealerstar->traget_amount = $request->traget_amount;
         $dealerstar->achieve_commistion = $request->achieve_commistion;
         $dealerstar->from_date = $request->from_date;
@@ -93,7 +136,8 @@ class CollectionController extends Controller
     public function lmtargetset()
     {
         $emps   =   Employee::latest('id')->get();
-        return view('Account.Collectiontarget.Linemanager.targetset',compact('emps'));
+        $commission_inc = CommissionIn::latest('id')->get();
+        return view('Account.Collectiontarget.Linemanager.targetset',compact('emps','commission_inc'));
     }
 
     public function linemanagertargetset(Request $request)
@@ -122,7 +166,8 @@ class CollectionController extends Controller
     public function stargetset()
     {
         $emps   =   Employee::latest('id')->get();
-        return view('Account.Collectiontarget.Spo.targetset',compact('emps'));
+        $commission_inc = CommissionIn::latest('id')->get();
+        return view('Account.Collectiontarget.Spo.targetset',compact('emps','commission_inc'));
     }
 
     public function spotargetset(Request $request)
@@ -150,7 +195,8 @@ class CollectionController extends Controller
     public function otargetset()
     {
         $emps   =   Employee::latest('id')->get();
-        return view('Account.Collectiontarget.Other.targetset',compact('emps'));
+        $commission_inc = CommissionIn::latest('id')->get();
+        return view('Account.Collectiontarget.Other.targetset',compact('emps','commission_inc'));
     }
     public function othertargetset(Request $request)
     {

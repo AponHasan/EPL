@@ -32,11 +32,21 @@
                             <div class="form-group m-b-40">
                                 <label style="position: inherit;">Line Manager</label>
                                 <select class="form-control" style="padding: 0px 10px 10px 10;" name="emp_id">
-                                <option value="">Select Line Manager</option>
+                                <option value="">Select Line Manage</option>
                                     @foreach($emps as $emp)
                                     <option value="{{$emp->id}}">{{$emp->emp_name}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group m-b-40">
+                                <label style="position: inherit;">Incentive Title</label>
+                                <select class="form-control" style="padding: 0px 10px 10px 10;" name="cominc_id">
+                                <option value="">Select Incentive</option>
+                                @foreach($commission_inc as $commission_in)
+                                <option value="{{$commission_in->id}}">{{$commission_in->title}}</option>
+                                @endforeach
                                 </select>
                             </div>
                         </div>
@@ -44,13 +54,13 @@
                         <div class="col-md-8">
                             <div class="form-group m-b-40">
                                 <label style="position: inherit;">Target Amount</label>
-                                <input type="text" class="form-control" id="targeta"  name="traget_amount">
+                                <input type="text" class="form-control" id="targeta"  name="traget_amount" readonly>
                             </div>
                         </div> 
                         <div class="col-md-8">
                             <div class="form-group m-b-40">
                                 <label style="position: inherit;">Achieve Commision (%)</label>
-                                <input type="text" class="form-control" id="commition"  name="achieve_commistion">
+                                <input type="text" class="form-control" id="commition"  name="achieve_commistion" readonly>
                             </div>
                         </div>                       
                         <div class="col-md-8">
@@ -95,31 +105,26 @@
 
 @push('end_js')
 <script>
-    $('#select').on('change', function() {
-        var x = $(this).find(":selected").val();
-
-        if(x=="Cash")
-        {
-            var a = document.getElementById("cash");
-            var b = document.getElementById("check");
-            a.style.display = "";
-            b.style.display = "none";
+$(document).ready(function(){
+    $('select[name="cominc_id"]').on('change',function(){
+        var cinid = $(this).val();
+        console.log(cinid);
+        if(cinid){
+            $.ajax({
+                url: '/incentiv/info/get/'+cinid,
+                type:"GET",
+                dataType:'json',
+                success: function(data){
+                    // console.log(data);
+                    // console.log(data[0].target_amount);
+                    var tamount = data[0].target_amount;
+                    var aamount = data[0].achive_commision;
+                    document.getElementById("targeta").value = tamount; 
+                    document.getElementById("commition").value = aamount; 
+                    }
+            });
         }
-        if(x=="Check")
-        {
-            var a = document.getElementById("cash");
-            var b = document.getElementById("check");
-            a.style.display = "";
-            b.style.display = "";
-        }
-        if(x=="MobilePay")
-        {
-            var a = document.getElementById("cash");
-            var b = document.getElementById("check");
-            a.style.display = "";
-            b.style.display = "none";
-        }
-        // console.log(x);
     });
+});
 </script>
 @endpush
