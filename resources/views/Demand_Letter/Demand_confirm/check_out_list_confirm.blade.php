@@ -66,6 +66,7 @@
                                     <td>
                                     <input type="text" class="form-control col-md-3" style="border-color: green"  name="delivery_quentity[]" value="{{$check_lists->approve}}">
                                     <input type="hidden" class="form-control"  name="demand_id[]" value="{{$check_lists->demand_id}}">
+                                    <input type="hidden" class="form-control"  name="products_id[]" value="{{$check_lists->products_id}}">
                                     </td>
                                 </tr>
                                 @endif
@@ -73,7 +74,7 @@
                         </tbody>
                     </table>
                 </div>
-                <input type="hidden" class="form-control"  name="products_id[]" value="{{$check_lists->products_id}}">
+               
                 
             <div class="text-center m-t-20" style="margin-bottom: 10%;">
             

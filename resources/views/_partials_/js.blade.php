@@ -1,5 +1,6 @@
 
     <script src="{{asset('js/jquery.min.js')}}"></script>
+    
     <!-- Bootstrap tether Core JavaScript -->
     @stack('before-js')
     <script src="{{asset('js/popper.min.js')}}"></script>

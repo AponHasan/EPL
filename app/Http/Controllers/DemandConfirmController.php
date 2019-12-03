@@ -55,9 +55,11 @@ class DemandConfirmController extends Controller
                 $ddcheckout->save(); 
           }
 
+
+            // dd($request->products_id);
             $date = date("Y-m-d");
         foreach ($request->products_id as $key => $deliveryconfirm) {
-            $data =array('approve_date'=>$date, 
+            $data =array('delivery_date'=>$date, 
             'dealer_id'=>$request->dealer_id,
             'ddl_check_outs_id'=>$request->ddl_check_outs_id,
             'demand_id'=>$request->demand_id[$key],

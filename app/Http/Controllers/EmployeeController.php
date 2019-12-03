@@ -86,25 +86,50 @@ class EmployeeController extends Controller
         # code...
     }
 
+
     public function getempname($id)
     {
-      
-        $empname = DB::select('SELECT employees.emp_name FROM `employees` WHERE employees.id="'.$id.'"');
-        // dd($empname);
-        return($empname);
-    
+        $query = DB::select('SELECT employees.emp_designation_id FROM `employees`
+        WHERE employees.id="'.$id.'"');
+        // return($query[0]->emp_designation_id);
+
+
+
+        if($query[0]->emp_designation_id == 2)
+        {
+            $empname = DB::select('SELECT employees.emp_code,employees.emp_name,employees.emp_designation_id,designations.designation_title,dealers.d_s_name,dealers.dlr_code 
+            FROM `employees`
+            LEFT JOIN  dealers ON employees.id = dealers.dlr_spo_id
+            LEFT JOIN designations ON designations.id = employees.emp_designation_id
+            WHERE employees.id="'.$id.'"');
+            return($empname);
+
+        }else
+        {
+            $empname = DB::select('SELECT employees.emp_code,employees.emp_name,employees.emp_designation_id,designations.designation_title,dealers.d_s_name,dealers.dlr_code 
+            FROM `employees`
+            LEFT JOIN  dealers ON employees.id = dealers.dlr_lm_id
+            LEFT JOIN designations ON designations.id = employees.emp_designation_id
+            WHERE employees.id="'.$id.'"');
+            return($empname);
+            // return response()->json("Nops") ;
+        }
     }
 
 
     public function passwordset()
     {
-        $employees = Employee::latest('id')->where('user_id','=',null)->where('emp_designation_id','=','6')->get();
+        $employees = Employee::latest('id')->where('user_id','=',null)->get();
         // dd($employees);
         return view('employee.credential.spopassword',compact('employees'));
     }
 
     public function password(Request $request)
     {
+        $did = $request->emp_desid;
+
+
+
         $password=trim($request->emp_password);
         
         $empid = $request->emp_id;
@@ -114,17 +139,24 @@ class EmployeeController extends Controller
             $user->password                             = bcrypt($password);
             $user->save();
 
-        $userrole = new Role_user;
+        if($did==6)
+        {
+            $userrole = new Role_user;
             $userrole->role_id      = 3;
             $userrole->user_id      = $user->id;
             $userrole->save();
-
-
+        }
+        elseif($did==7)
+        {
+            $userrole = new Role_user;
+            $userrole->role_id      = 4;
+            $userrole->user_id      = $user->id;
+            $userrole->save();
+        }
+        
            $empid = Employee::find($empid);
            $empid ->user_id=$user->id;
            $empid ->save();
            return back()->with('success','Password set Successfully');
     }
-
-
 }
